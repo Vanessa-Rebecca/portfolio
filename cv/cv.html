@@ -1,0 +1,230 @@
+<!doctype html>
+<!--
+  Combined CV source (software engineering + AI/ML).
+  Edit this file, then regenerate the PDF:
+    npm run cv
+  Output: public/cv/Vanessa-Konso-CV.pdf (linked from the website's "Download CV" button)
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Konso Vanessa Rebecca — CV</title>
+<style>
+  @page { size: A4; margin: 13mm 14mm 12mm; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    margin: 0;
+    font-family: Calibri, "Segoe UI", Arial, sans-serif;
+    font-size: 10pt;
+    line-height: 1.38;
+    color: #1d1b26;
+  }
+  :root { --accent: #4c1d95; --muted: #555066; --rule: #d9d5e3; }
+
+  header { text-align: center; margin-bottom: 9pt; }
+  h1 { margin: 0; font-size: 21pt; letter-spacing: 0.01em; color: var(--accent); font-weight: 700; }
+  .title { margin: 2pt 0 5pt; font-size: 11pt; color: #3b3650; }
+  .contact { font-size: 9pt; color: var(--muted); }
+  .contact a { color: inherit; text-decoration: none; }
+  .contact span + span::before { content: "  |  "; color: #aaa; white-space: pre; }
+
+  h2 {
+    margin: 11pt 0 5pt;
+    padding-bottom: 2pt;
+    font-size: 10.5pt;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 1px solid var(--rule);
+    break-after: avoid;
+  }
+  h3 { margin: 0; font-size: 10.2pt; font-weight: 700; }
+  p { margin: 0; }
+  .summary { text-align: justify; }
+
+  .item { margin: 0 0 6pt; break-inside: avoid; }
+  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12pt; }
+  .meta { font-size: 9pt; color: var(--muted); white-space: nowrap; }
+  .sub { font-size: 9.2pt; color: var(--muted); font-style: italic; }
+  .stack { font-weight: 400; font-style: italic; color: var(--muted); font-size: 9.2pt; }
+
+  ul { margin: 2pt 0 0; padding-left: 13pt; }
+  li { margin: 0 0 1.5pt; }
+  li::marker { color: var(--accent); }
+
+  .group-label {
+    margin: 7pt 0 4pt;
+    font-size: 8.5pt;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+  }
+  .skills { display: grid; grid-template-columns: 9.5em 1fr; gap: 2.5pt 10pt; }
+  .skills dt { font-weight: 700; }
+  .skills dd { margin: 0; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0 18pt; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>KONSO VANESSA REBECCA</h1>
+  <p class="title">Software Engineer &nbsp;·&nbsp; Full-Stack Web Development &nbsp;·&nbsp; AI &amp; Machine Learning</p>
+  <p class="contact">
+    <span>Kampala, Uganda</span><span>+256 778 667 124 / +256 742 792 762</span><span><a href="mailto:rebeccakonso256@gmail.com">rebeccakonso256@gmail.com</a></span>
+  </p>
+  <p class="contact">
+    <span><a href="https://github.com/Vanessa-Rebecca">github.com/Vanessa-Rebecca</a></span><span><a href="https://www.linkedin.com/in/vanessa-rebecca-konso-59210b226/">linkedin.com/in/vanessa-rebecca-konso-59210b226</a></span>
+  </p>
+</header>
+
+<h2>Professional Summary</h2>
+<p class="summary">
+  Software Engineering graduate from Makerere University (Second Class Upper) with two years of hands-on experience
+  designing, building and maintaining web applications and enterprise business systems in production. Experienced across
+  the stack with Next.js, React, TypeScript, Node.js, PHP/Laravel, Python, Django and PostgreSQL, from requirements and
+  UI/UX design through API integration, database development, testing, UAT and deployment. Complemented by formal AI and
+  machine learning training (Refactory Academy, 10X full-tuition scholarship; Tech SkillUp Program, Lift Horizon
+  Foundation) and practical projects across the ML workflow: data cleaning, exploratory analysis, feature engineering,
+  predictive modelling, model evaluation and deployment with Gradio and Hugging Face. Skilled at translating business
+  requirements into reliable, user-friendly software and explaining technical work clearly to non-technical audiences.
+</p>
+
+<h2>Experience</h2>
+
+<div class="item">
+  <div class="row"><h3>Software Engineer &nbsp;|&nbsp; AIBOS Uganda</h3><span class="meta">2024 – Present</span></div>
+  <ul>
+    <li>Design, build, test and maintain web-based internal business systems across frontend and backend, working in an Agile team on live production systems using Next.js, React, TypeScript, Node.js, PostgreSQL and REST APIs.</li>
+    <li>Built the <b>leave management</b> and <b>project management</b> modules of the Employee Management System (EMS) end-to-end, and contributed to time tracking and task management features.</li>
+    <li>Developed features for a <b>Job Application Portal</b>: job postings, candidate applications, authentication, CRUD operations, application tracking and API/database integration (Next.js, TypeScript, Supabase).</li>
+    <li>Lead requirements gathering, UI/UX design, frontend development and feature implementation for a <b>Software Document Generator</b> (SRS and SDD) built with Next.js and Python.</li>
+    <li>Analyse employee and operational data from the EMS in PostgreSQL to identify trends and support data validation, reporting requirements and system improvements.</li>
+    <li>Use Docker, Git/GitHub and CI/CD workflows for development and deployment; write and maintain technical documentation that supports onboarding and long-term project continuity.</li>
+  </ul>
+</div>
+
+<div class="item">
+  <div class="row"><h3>Software Engineering Intern &nbsp;|&nbsp; Stratcom Communications and Computer Solutions Ltd</h3><span class="meta">Jun 2023 – Aug 2023</span></div>
+  <ul>
+    <li>Built frontend interfaces for a Fees Management System in React, integrated with a Django REST backend.</li>
+    <li>Worked with senior developers on requirements analysis, testing and user acceptance testing in a live production environment.</li>
+  </ul>
+</div>
+
+<h2>Projects</h2>
+
+<p class="group-label">Software engineering</p>
+
+<div class="item">
+  <h3>Payment Webhook &amp; Immutable Ledger Service <span class="stack">— Node.js, TypeScript, PostgreSQL, Docker</span></h3>
+  <ul>
+    <li>Built a payment webhook API that verifies HMAC-SHA256 signatures against the raw request body and makes processing idempotent with PostgreSQL unique constraints and ON CONFLICT handling, so duplicate or concurrent deliveries are recorded exactly once.</li>
+    <li>Designed an append-only ledger schema with indexed balance queries (verified with EXPLAIN ANALYZE) and a reconciliation CLI that reports matched, mismatched, missing and orphan entries and inserts compensating entries without changing history.</li>
+    <li>Added request validation, NDJSON audit logging with PII masking, and a Docker Compose setup.</li>
+  </ul>
+</div>
+
+<div class="item">
+  <h3>USSD Crime Reporting System &amp; Proximity Search <span class="stack">— PHP 8, PostgreSQL, JavaScript, Bash</span></h3>
+  <ul>
+    <li>Built a stateful, configuration-driven USSD menu engine and modelled the report lifecycle as a state machine with an admin CLI that blocks invalid status changes.</li>
+    <li>Built a spatially indexed proximity search API with parameterised queries, and a vanilla JavaScript dashboard with loading, error and empty states and debounced inputs.</li>
+  </ul>
+</div>
+
+<div class="item">
+  <h3>Client Websites — jamainus.com &amp; cliniquehov.org <span class="stack">— React, Laravel (PHP), REST APIs</span></h3>
+  <ul>
+    <li>Built responsive, mobile-first websites with reusable React components and Laravel backend functionality, with a focus on accessibility and clear layouts.</li>
+  </ul>
+</div>
+
+<p class="group-label">AI &amp; machine learning</p>
+
+<div class="item">
+  <h3>Credit Card Fraud Detection <span class="stack">— Python, scikit-learn, XGBoost, PyTorch, Gradio · Refactory Academy capstone</span></h3>
+  <ul>
+    <li>Built and compared Logistic Regression, Random Forest, XGBoost and a PyTorch neural network on a severely imbalanced dataset; tuned the classification threshold to balance precision and recall.</li>
+    <li>Deployed the final model as an interactive Gradio demo on Hugging Face Spaces.</li>
+  </ul>
+</div>
+
+<div class="item">
+  <h3>Customer Segmentation for Targeted Marketing <span class="stack">— Python, scikit-learn, K-Means, PCA, Gradio · Lift Horizon Foundation</span></h3>
+  <ul>
+    <li>Engineered RFM and category-affinity features in a scikit-learn pipeline, segmented customers with K-Means (elbow method and silhouette score) and visualised clusters with PCA.</li>
+    <li>Translated clusters into business personas with marketing recommendations, trained a Random Forest to segment new customers from signup data, and deployed the pipeline as a Gradio app.</li>
+  </ul>
+</div>
+
+<div class="item">
+  <h3>Heart Disease Classification <span class="stack">— Python, scikit-learn · Refactory Academy</span></h3>
+  <ul>
+    <li>Cleaned the UCI Heart Disease dataset, compared Logistic Regression, Random Forest and Gradient Boosting tuned with GridSearchCV, and prioritised recall for the health context — Logistic Regression achieved a recall of 0.872.</li>
+  </ul>
+</div>
+
+<div class="item">
+  <h3>Wilt Guard — Coffee Wilt Disease Detection <span class="stack">— Python, YOLOv8, TensorFlow, Roboflow · team project</span></h3>
+  <ul>
+    <li>Collected, labelled and preprocessed image datasets in Roboflow, and trained and evaluated a YOLOv8 object detection model as part of the team.</li>
+  </ul>
+</div>
+
+<div class="item">
+  <h3>Bank Customer Churn Prediction (ANN) <span class="stack">— Python, TensorFlow, Keras · Lift Horizon Foundation</span></h3>
+  <ul>
+    <li>Built a two-hidden-layer neural network optimised for recall on churners, with a stratified split and scaling fit only on training data to prevent leakage.</li>
+  </ul>
+</div>
+
+<h2>Skills</h2>
+<dl class="skills">
+  <dt>Languages</dt><dd>JavaScript (ES6+), TypeScript, Python, PHP, SQL, HTML5, CSS3</dd>
+  <dt>Frontend</dt><dd>React, Next.js, Tailwind CSS, Bootstrap, responsive UI development, UI/UX design</dd>
+  <dt>Backend &amp; APIs</dt><dd>Node.js, Laravel, Django, RESTful API design, webhooks, authentication, third-party integrations</dd>
+  <dt>Databases</dt><dd>PostgreSQL, MySQL, Supabase, relational design, data modelling, indexing, query optimisation</dd>
+  <dt>AI / ML</dt><dd>pandas, NumPy, scikit-learn, PyTorch, TensorFlow/Keras, XGBoost, YOLOv8, Roboflow; EDA, classification, regression, clustering (K-Means, PCA), neural networks, transfer learning, imbalanced data, GridSearchCV, cross-validation, threshold tuning; Gradio, FastAPI, Hugging Face</dd>
+  <dt>Tools &amp; DevOps</dt><dd>Git/GitHub, Docker, Docker Compose, CI/CD, Bash, Postman, Jupyter, Google Colab</dd>
+  <dt>Practices</dt><dd>Requirements analysis, software design, testing, UAT, technical documentation, Agile (Scrum/Kanban); input validation, prepared statements, HMAC verification, PII masking</dd>
+</dl>
+
+<div class="two-col">
+  <div>
+    <h2>Certifications</h2>
+    <div class="item">
+      <div class="row"><h3>AI &amp; Machine Learning Certificate</h3><span class="meta">Aug 2026</span></div>
+      <p class="sub">Refactory Academy — 10X full-tuition scholarship</p>
+    </div>
+    <div class="item">
+      <div class="row"><h3>AI &amp; Machine Learning Certificate</h3><span class="meta">Jul 2026</span></div>
+      <p class="sub">Tech SkillUp Program, Lift Horizon Foundation</p>
+    </div>
+    <div class="item">
+      <div class="row"><h3>Soft Skills Certificate</h3><span class="meta">Mar 2026</span></div>
+      <p class="sub">BrighterMonday Uganda × Mastercard Foundation</p>
+    </div>
+    <div class="item">
+      <div class="row"><h3>Internship Training — Web App Development</h3><span class="meta">Aug 2023</span></div>
+      <p class="sub">Stratcom Communications and Computer Solutions Ltd</p>
+    </div>
+  </div>
+  <div>
+    <h2>Education</h2>
+    <div class="item">
+      <div class="row"><h3>BSc Software Engineering</h3><span class="meta">2020 – 2024</span></div>
+      <p class="sub">Makerere University, Kampala — Graduated 2025</p>
+      <p>CGPA 3.98 / 5.00 · Second Class Upper</p>
+    </div>
+    <div class="item">
+      <div class="row"><h3>UACE — Physics, Mathematics, Economics</h3><span class="meta">2018 – 2019</span></div>
+      <p class="sub">Nabisunsa Girls' School, Kampala</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
