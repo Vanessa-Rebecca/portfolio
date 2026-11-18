@@ -19,10 +19,11 @@ export function RevealController() {
     mm.add(MQ.motion, () => {
       // Generic reveals
       const items = gsap.utils.toArray<HTMLElement>("[data-reveal]");
-      gsap.set(items, { autoAlpha: 0, y: 40 });
-      gsap.set("[data-reveal='scale']", { y: 0, scale: 0.94 });
+      const scaled = items.filter((el) => el.dataset.reveal === "scale");
+      if (items.length) gsap.set(items, { autoAlpha: 0, y: 40 });
+      if (scaled.length) gsap.set(scaled, { y: 0, scale: 0.94 });
 
-      ScrollTrigger.batch(items, {
+      if (items.length) ScrollTrigger.batch(items, {
         start: "top 88%",
         once: true,
         onEnter: (batch) =>
