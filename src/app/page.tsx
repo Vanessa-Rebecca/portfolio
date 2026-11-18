@@ -5,6 +5,7 @@ import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { RevealController } from "@/components/motion/RevealController";
 import { Hero } from "@/components/hero/Hero";
 import { About } from "@/components/sections/About";
+import { Experience } from "@/components/sections/Experience";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
       <main id="main">
         <Hero />
         <About />
+        <Experience />
       </main>
       <RevealController />
     </>
