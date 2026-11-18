@@ -8,6 +8,7 @@ import { About } from "@/components/sections/About";
 import { Experience } from "@/components/sections/Experience";
 import { Skills } from "@/components/sections/Skills";
 import { Projects } from "@/components/sections/Projects";
+import { AIML } from "@/components/sections/AIML";
 import { ProjectDialog } from "@/components/projects/ProjectDialog";
 
 export default function Home() {
@@ -29,6 +30,7 @@ export default function Home() {
         <Experience />
         <Skills />
         <Projects />
+        <AIML />
       </main>
       <ProjectDialog />
       <RevealController />
