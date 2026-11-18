@@ -156,7 +156,7 @@ export function Navbar() {
             <span className="hidden text-sm font-medium tracking-tight sm:block">{profile.name}</span>
           </a>
 
-          <div className="relative hidden rounded-full border border-transparent p-1 transition-[background-color,border-color,backdrop-filter] duration-500 group-data-[scrolled=true]/nav:border-line group-data-[scrolled=true]/nav:bg-bg/70 group-data-[scrolled=true]/nav:backdrop-blur-xl lg:block">
+          <div className="relative hidden rounded-full border border-line/60 bg-bg/40 p-1 backdrop-blur-xl transition-[background-color,border-color] duration-500 group-data-[scrolled=true]/nav:border-line group-data-[scrolled=true]/nav:bg-bg/75 lg:block">
             <ul ref={listRef} className="relative flex items-center">
               <span
                 ref={pillRef}
