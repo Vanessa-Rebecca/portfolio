@@ -4,6 +4,7 @@ import { CustomCursor } from "@/components/layout/CustomCursor";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { RevealController } from "@/components/motion/RevealController";
 import { Hero } from "@/components/hero/Hero";
+import { About } from "@/components/sections/About";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <Navbar />
       <main id="main">
         <Hero />
+        <About />
       </main>
       <RevealController />
     </>
