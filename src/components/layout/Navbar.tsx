@@ -150,7 +150,7 @@ export function Navbar() {
             className="flex items-center gap-3 rounded-full py-1 pr-3"
             aria-label={`${profile.name} — back to top`}
           >
-            <span className="grid size-10 place-items-center rounded-full border border-line-strong bg-bg/60 font-display text-lg italic backdrop-blur-md">
+            <span className="grid size-10 place-items-center rounded-full border border-line-strong bg-bg/60 font-display text-[0.95rem] tracking-[-0.02em] italic backdrop-blur-md">
               {profile.initials}
             </span>
             <span className="hidden text-sm font-medium tracking-tight sm:block">{profile.name}</span>
@@ -230,7 +230,7 @@ export function Navbar() {
         >
           <div aria-hidden className="pointer-events-none absolute -top-40 -right-40 size-[28rem] rounded-full bg-accent/25 blur-[120px]" />
           <div className="container-x flex items-center justify-between pt-3 sm:pt-4">
-            <span className="grid size-10 place-items-center rounded-full border border-line-strong font-display text-lg italic">
+            <span className="grid size-10 place-items-center rounded-full border border-line-strong font-display text-[0.95rem] tracking-[-0.02em] italic">
               {profile.initials}
             </span>
             <button

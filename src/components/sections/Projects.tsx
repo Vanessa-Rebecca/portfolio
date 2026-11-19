@@ -42,14 +42,14 @@ export function Projects() {
               Products, systems and <em className="text-accent">experiments</em>.
             </>
           }
-          intro="Company systems I've helped build, services I designed end-to-end, and a machine learning capstone. Open any project for the full case study."
+          intro="Company systems I've helped build and services I designed end-to-end. Open any project for the full case study."
         />
 
         {/* Gallery */}
-        <ul className="mt-14 grid gap-5 md:grid-cols-2 lg:mt-20 lg:grid-cols-3">
-          {galleryProjects.map((p) => (
+        <ul className="mt-14 grid gap-5 md:grid-cols-2 lg:mt-20">
+          {galleryProjects.map((p, i) => (
             <li key={p.slug} data-gallery-card>
-              <ProjectCard project={p} />
+              <ProjectCard project={p} index={i} />
             </li>
           ))}
         </ul>

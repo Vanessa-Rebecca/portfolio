@@ -351,17 +351,15 @@ export const projects: Project[] = [
 ];
 
 /**
- * The six projects shown as cards in "Selected work", in display order.
+ * The four projects shown as cards in "Selected work", in display order.
  * Projects not listed here are still reachable through the case-study dialog
  * (AI/ML section, "Also built" list, prev/next arrows).
  */
 export const galleryOrder = [
   "employee-management-system",
-  "software-document-generator",
   "job-application-portal",
   "payment-webhook-ledger",
   "ussd-crime-reporting",
-  "credit-card-fraud-detection",
 ] as const;
 
 export const galleryProjects = galleryOrder
@@ -382,6 +380,13 @@ export type MiniProject = {
 };
 
 export const otherWork: MiniProject[] = [
+  {
+    title: "Software Document Generator",
+    detail: "Generates Software Requirements Specifications and Software Design Documents. I led the UI/UX and frontend.",
+    stack: "Next.js · TypeScript · Python",
+    href: null,
+    slug: "software-document-generator",
+  },
   {
     title: "Jamainus & Clinique HOV",
     detail: "Responsive, mobile-first client websites with React and a Laravel backend.",

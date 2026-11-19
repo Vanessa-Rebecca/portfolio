@@ -8,7 +8,7 @@ export const profile = {
   firstName: "Vanessa",
   middleName: "Rebecca",
   lastName: "Konso",
-  initials: "VK",
+  initials: "VRK",
   role: "Software Engineer",
   location: "Kampala, Uganda",
   timeZone: "Africa/Kampala",
