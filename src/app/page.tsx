@@ -12,6 +12,7 @@ import { AIML } from "@/components/sections/AIML";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/layout/Footer";
 import { BackToTop } from "@/components/layout/BackToTop";
+import { Preloader } from "@/components/layout/Preloader";
 import { ProjectDialog } from "@/components/projects/ProjectDialog";
 
 export default function Home() {
@@ -23,6 +24,7 @@ export default function Home() {
       >
         Skip to content
       </a>
+      <Preloader />
       <SmoothScroll />
       <ScrollProgress />
       <CustomCursor />

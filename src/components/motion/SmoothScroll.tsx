@@ -18,6 +18,7 @@ export function SmoothScroll() {
       syncTouch: false,
     });
     setLenis(lenis);
+    if (document.documentElement.classList.contains("intro-active")) lenis.stop();
 
     lenis.on("scroll", ScrollTrigger.update);
     const tick = (time: number) => lenis.raf(time * 1000);

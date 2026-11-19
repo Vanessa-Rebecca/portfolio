@@ -5,6 +5,7 @@ import { ArrowDown, ArrowRight } from "lucide-react";
 import { profile } from "@/data/profile";
 import { gsap, SplitText, useGSAP, MQ } from "@/lib/gsap";
 import { scrollToTarget } from "@/lib/scroll";
+import { onIntroReveal } from "@/lib/intro";
 import { ButtonLink } from "@/components/ui/Button";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/Icons";
 import { LocalTime } from "@/components/ui/LocalTime";
@@ -21,7 +22,7 @@ export function Hero() {
         const nameSplit = SplitText.create("[data-hero-first]", { type: "chars", mask: "chars" });
         const headSplit = SplitText.create("[data-hero-headline]", { type: "lines", mask: "lines", linesClass: "split-line" });
 
-        const tl = gsap.timeline({ defaults: { ease: "expo.out" }, delay: 0.15 });
+        const tl = gsap.timeline({ defaults: { ease: "expo.out" }, delay: 0.15, paused: true });
         tl.set("[data-hero]", { autoAlpha: 1 })
           .from("[data-hero-canvas]", { autoAlpha: 0, duration: 2.4, ease: "power2.out" }, 0)
           .from("[data-hero-aurora]", { scale: 0.6, autoAlpha: 0, duration: 2.4, stagger: 0.2 }, 0)
@@ -66,7 +67,10 @@ export function Hero() {
         });
         roll.to("[data-role-track]", { y: 0, duration: 0.9, ease: "expo.inOut" }, "+=1.8");
 
+        const offReveal = onIntroReveal(() => tl.play());
+
         return () => {
+          offReveal();
           nameSplit.revert();
           headSplit.revert();
         };

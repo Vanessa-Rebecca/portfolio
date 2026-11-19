@@ -74,9 +74,10 @@ export const viewport: Viewport = {
 
 /**
  * Runs before first paint: restores the saved theme (dark by default) and
- * flags whether motion is allowed, so hero elements can start hidden without a flash.
+ * flags whether motion is allowed, so hero elements can start hidden without a flash,
+ * and whether the opening preloader should play (first visit this session only).
  */
-const bootScript = `(function(){try{var d=document.documentElement;var t=localStorage.getItem("theme");if(t==="light"||t==="dark")d.setAttribute("data-theme",t);if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches)d.classList.add("js-motion")}catch(e){}})()`;
+const bootScript = `(function(){try{var d=document.documentElement;var t=localStorage.getItem("theme");if(t==="light"||t==="dark")d.setAttribute("data-theme",t);if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches){d.classList.add("js-motion");try{if(!sessionStorage.getItem("intro-seen"))d.classList.add("intro-active")}catch(e){}}}catch(e){}})()`;
 
 const personJsonLd = {
   "@context": "https://schema.org",

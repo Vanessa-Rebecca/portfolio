@@ -141,11 +141,25 @@ html.lenis body {
 /* Hero items start hidden only when JS + motion are available (class set by the inline head script). */
 .js-motion [data-hero] {
   visibility: hidden;
-  animation: hero-failsafe 0s linear 3s forwards;
+  animation: hero-failsafe 0s linear 6s forwards;
 }
 @keyframes hero-failsafe {
   to {
     visibility: visible;
+  }
+}
+
+/* Opening preloader — shown only while <html> has .intro-active */
+[data-preloader] {
+  display: none;
+}
+html.intro-active [data-preloader] {
+  display: block;
+  animation: preloader-failsafe 0s linear 9s forwards;
+}
+@keyframes preloader-failsafe {
+  to {
+    visibility: hidden;
   }
 }
 

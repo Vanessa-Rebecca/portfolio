@@ -40,13 +40,6 @@ export function Portrait({ className = "" }: { className?: string }) {
             scrollTrigger: { trigger: root.current, start: "top bottom", end: "bottom top", scrub: true },
           },
         );
-        gsap.from("[data-portrait-caption]", {
-          y: 16,
-          autoAlpha: 0,
-          duration: 1,
-          delay: 0.8,
-          scrollTrigger: { trigger: root.current, start: "top 85%", once: true },
-        });
       });
       return () => mm.revert();
     },
@@ -75,10 +68,6 @@ export function Portrait({ className = "" }: { className?: string }) {
           {profile.availability}
         </span>
       </div>
-      <figcaption data-portrait-caption className="mt-4 flex items-baseline justify-between gap-3">
-        <span className="font-display text-xl italic">{profile.name}</span>
-        <span className="font-mono text-[0.65rem] tracking-[0.18em] text-faint uppercase">Kampala</span>
-      </figcaption>
     </figure>
   );
 }
