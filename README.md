@@ -29,7 +29,7 @@ All content lives in `src/data/`. You never need to touch components to change t
 | `profile.ts` | Name, role, email, phones (`showPhone`), social links, hero text, photo, CV path |
 | `experience.ts` | Jobs and the "path so far" milestones |
 | `skills.ts` | Skill categories, logos and "where I've used it" notes |
-| `projects.ts` | Projects, case-study text, links, previews, smaller work and ML studies |
+| `projects.ts` | Projects, case-study text, links, previews, smaller work and ML studies. `galleryOrder` picks the six cards shown in "Selected work" (keep it a multiple of 3 for full rows); `otherWork` is the "Also built" list |
 | `training.ts` | Education, certifications and the AI/ML pipeline stages |
 
 ### Project links and screenshots

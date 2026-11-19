@@ -350,10 +350,57 @@ export const projects: Project[] = [
   },
 ];
 
+/**
+ * The six projects shown as cards in "Selected work", in display order.
+ * Projects not listed here are still reachable through the case-study dialog
+ * (AI/ML section, "Also built" list, prev/next arrows).
+ */
+export const galleryOrder = [
+  "employee-management-system",
+  "software-document-generator",
+  "job-application-portal",
+  "payment-webhook-ledger",
+  "ussd-crime-reporting",
+  "credit-card-fraud-detection",
+] as const;
+
+export const galleryProjects = galleryOrder
+  .map((slug) => projects.find((p) => p.slug === slug))
+  .filter((p): p is Project => Boolean(p));
+
 /** Smaller pieces of work listed under the main gallery. */
-export type MiniProject = { title: string; detail: string; stack: string; href: string | null };
+export type MiniProject = {
+  title: string;
+  detail: string;
+  stack: string;
+  href: string | null;
+  /** Extra links (e.g. live sites). */
+  links?: ProjectLink[];
+  /** If set, the row also opens this project's case study. */
+  slug?: string;
+  status?: string;
+};
 
 export const otherWork: MiniProject[] = [
+  {
+    title: "Jamainus & Clinique HOV",
+    detail: "Responsive, mobile-first client websites with React and a Laravel backend.",
+    stack: "React · Laravel",
+    href: null,
+    links: [
+      { label: "jamainus.com", href: "https://jamainus.com" },
+      { label: "cliniquehov.org", href: "https://cliniquehov.org" },
+    ],
+    slug: "client-websites",
+  },
+  {
+    title: "AI Freelancer Assistant",
+    detail: "AI-powered app that drafts proposals, invoices and contracts for freelancers.",
+    stack: "React · Node.js · PostgreSQL",
+    href: "https://github.com/Vanessa-Rebecca/AI-freelancer-assistant",
+    slug: "ai-freelancer-assistant",
+    status: "In development",
+  },
   {
     title: "Event Pass QR",
     detail: "Laravel app for generating and verifying event tickets with QR codes.",

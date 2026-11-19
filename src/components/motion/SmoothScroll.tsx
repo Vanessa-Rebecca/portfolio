@@ -37,5 +37,26 @@ export function SmoothScroll() {
     };
   }, []);
 
+  // Safety net: if the page height changes after load (late images, fonts, re-split text),
+  // recalculate every ScrollTrigger so pinned scenes never overlap the content after them.
+  useEffect(() => {
+    let lastHeight = document.body.scrollHeight;
+    let timer = 0;
+    const ro = new ResizeObserver(() => {
+      const h = document.body.scrollHeight;
+      if (Math.abs(h - lastHeight) < 2) return;
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        ScrollTrigger.refresh();
+        lastHeight = document.body.scrollHeight;
+      }, 200);
+    });
+    ro.observe(document.body);
+    return () => {
+      window.clearTimeout(timer);
+      ro.disconnect();
+    };
+  }, []);
+
   return null;
 }

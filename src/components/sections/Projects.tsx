@@ -1,64 +1,28 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ProjectCard } from "@/components/projects/ProjectCard";
-import { otherWork, projects, type ProjectCategory } from "@/data/projects";
+import { galleryProjects, otherWork } from "@/data/projects";
 import { profile } from "@/data/profile";
-import { Flip, gsap, ScrollTrigger, useGSAP, MQ } from "@/lib/gsap";
+import { gsap, ScrollTrigger, useGSAP, MQ } from "@/lib/gsap";
+import { openProject } from "@/lib/projectDialog";
 import { GithubIcon } from "@/components/ui/Icons";
-
-type Filter = "all" | ProjectCategory;
-
-const filters: { id: Filter; label: string }[] = [
-  { id: "all", label: "All work" },
-  { id: "product", label: "Product & Web" },
-  { id: "ai", label: "AI & ML" },
-];
+import { Tag } from "@/components/ui/Tag";
 
 export function Projects() {
   const root = useRef<HTMLElement>(null);
-  const gridRef = useRef<HTMLUListElement>(null);
-  const flipState = useRef<Flip.FlipState | null>(null);
-  const [filter, setFilter] = useState<Filter>("all");
 
-  const count = (f: Filter) => (f === "all" ? projects.length : projects.filter((p) => p.category === f).length);
-
-  const choose = (f: Filter) => {
-    if (f === filter) return;
-    if (gridRef.current && window.matchMedia(MQ.motion).matches) {
-      flipState.current = Flip.getState(gridRef.current.querySelectorAll("[data-flip-card]"));
-    }
-    setFilter(f);
-  };
-
-  // Animate between layouts after React applies the new filter
-  useLayoutEffect(() => {
-    const state = flipState.current;
-    if (!state || !gridRef.current) return;
-    flipState.current = null;
-    Flip.from(state, {
-      duration: 0.8,
-      ease: "expo.inOut",
-      scale: true,
-      absolute: true,
-      nested: true,
-      onEnter: (els) => gsap.fromTo(els, { autoAlpha: 0, scale: 0.92 }, { autoAlpha: 1, scale: 1, duration: 0.6, delay: 0.25 }),
-      onLeave: (els) => gsap.to(els, { autoAlpha: 0, scale: 0.92, duration: 0.4 }),
-      onComplete: () => ScrollTrigger.refresh(),
-    });
-  }, [filter]);
-
-  // Cards rise in on first scroll into view, with a little parallax on the previews
+  // Cards rise in, staggered, as each row scrolls into view
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
       mm.add(MQ.motion, () => {
-        ScrollTrigger.batch("[data-flip-card]", {
+        ScrollTrigger.batch("[data-gallery-card]", {
           start: "top 88%",
           once: true,
-          onEnter: (batch) => gsap.from(batch, { y: 60, autoAlpha: 0, duration: 1.2, stagger: 0.1 }),
+          onEnter: (batch) => gsap.from(batch, { y: 50, autoAlpha: 0, duration: 1.1, stagger: 0.1 }),
         });
       });
       return () => mm.revert();
@@ -78,89 +42,75 @@ export function Projects() {
               Products, systems and <em className="text-accent">experiments</em>.
             </>
           }
-          intro="Company systems I've helped build, services I designed end-to-end, and machine learning projects from my AI training. Open any project for the full case study."
+          intro="Company systems I've helped build, services I designed end-to-end, and a machine learning capstone. Open any project for the full case study."
         />
 
-        {/* Filters */}
-        <div className="mt-14 flex flex-wrap items-center justify-between gap-4 border-b border-line pb-5 lg:mt-20">
-          <div role="group" aria-label="Filter projects" className="flex flex-wrap gap-2">
-            {filters.map((f) => {
-              const on = f.id === filter;
-              return (
-                <button
-                  key={f.id}
-                  type="button"
-                  aria-pressed={on}
-                  onClick={() => choose(f.id)}
-                  className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-colors duration-300 ${
-                    on ? "border-fg bg-fg text-bg" : "border-line text-muted hover:border-line-strong hover:text-fg"
-                  }`}
-                >
-                  {f.label}
-                  <span className={`font-mono text-[0.7rem] ${on ? "text-bg/60" : "text-faint"}`}>{count(f.id)}</span>
-                </button>
-              );
-            })}
-          </div>
-          <p className="text-sm text-muted" aria-live="polite">
-            Showing {count(filter)} project{count(filter) === 1 ? "" : "s"}
-          </p>
-        </div>
-
         {/* Gallery */}
-        <ul ref={gridRef} className="mt-10 grid gap-5 md:grid-cols-2 lg:gap-6">
-          {projects.map((p) => {
-            const visible = filter === "all" || p.category === filter;
-            return (
-              <li
-                key={p.slug}
-                data-flip-id={p.slug}
-                data-flip-card
-                className={`${visible ? "" : "hidden"} ${p.featured ? "md:col-span-2" : ""}`}
-              >
-                <ProjectCard project={p} featured={p.featured} />
-              </li>
-            );
-          })}
+        <ul className="mt-14 grid gap-5 md:grid-cols-2 lg:mt-20 lg:grid-cols-3">
+          {galleryProjects.map((p) => (
+            <li key={p.slug} data-gallery-card>
+              <ProjectCard project={p} />
+            </li>
+          ))}
         </ul>
 
-        {/* More work */}
+        {/* Also built */}
         <div className="mt-20 grid gap-8 lg:grid-cols-12" data-reveal>
           <div className="lg:col-span-4">
             <p className="font-mono text-xs tracking-[0.2em] text-muted uppercase">Also built</p>
-            <p className="mt-3 text-muted">Smaller projects and earlier work.</p>
+            <p className="mt-3 text-muted">Client work, personal projects and earlier work.</p>
           </div>
           <ul className="divide-y divide-line border-y border-line lg:col-span-8">
-            {otherWork.map((w) => {
-              const inner = (
-                <>
-                  <span className="font-medium">{w.title}</span>
-                  <span className="text-sm text-muted sm:flex-1">{w.detail}</span>
-                  <span className="font-mono text-xs text-faint">{w.stack}</span>
-                </>
-              );
-              return (
-                <li key={w.title}>
+            {otherWork.map((w) => (
+              <li key={w.title} className="flex flex-col gap-3 py-5 sm:flex-row sm:items-center sm:gap-6">
+                <div className="sm:flex-1">
+                  <p className="flex flex-wrap items-center gap-2 font-medium">
+                    {w.title}
+                    {w.status ? <Tag tone="accent">{w.status}</Tag> : null}
+                  </p>
+                  <p className="mt-1 text-sm text-muted">{w.detail}</p>
+                  <p className="mt-1.5 font-mono text-xs text-faint">{w.stack}</p>
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  {w.links?.map((l) => (
+                    <a
+                      key={l.href}
+                      href={l.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 rounded-full bg-fg px-3 py-1.5 text-xs text-bg transition-colors hover:bg-accent hover:text-on-accent"
+                    >
+                      {l.label}
+                      <ArrowUpRight className="size-3.5" aria-hidden />
+                      <span className="sr-only">(opens in a new tab)</span>
+                    </a>
+                  ))}
                   {w.href ? (
                     <a
                       href={w.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex flex-col gap-1 py-5 transition-colors sm:flex-row sm:items-center sm:gap-6"
+                      className="inline-flex items-center gap-1.5 rounded-full border border-line-strong px-3 py-1.5 text-xs transition-colors hover:border-accent hover:bg-accent-soft"
                     >
-                      {inner}
-                      <ArrowUpRight className="size-4 text-muted transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent" aria-hidden />
-                      <span className="sr-only">(opens on GitHub in a new tab)</span>
+                      <GithubIcon className="size-3.5" />
+                      Code
+                      <span className="sr-only">for {w.title} on GitHub (opens in a new tab)</span>
                     </a>
-                  ) : (
-                    <div className="flex flex-col gap-1 py-5 sm:flex-row sm:items-center sm:gap-6">
-                      {inner}
-                      <span className="size-4" aria-hidden />
-                    </div>
-                  )}
-                </li>
-              );
-            })}
+                  ) : null}
+                  {w.slug ? (
+                    <button
+                      type="button"
+                      onClick={() => openProject(w.slug!)}
+                      className="inline-flex items-center gap-1 rounded-full border border-line px-3 py-1.5 text-xs text-muted transition-colors hover:border-accent hover:text-fg"
+                    >
+                      Case study
+                      <ArrowUpRight className="size-3.5" aria-hidden />
+                      <span className="sr-only">: {w.title}</span>
+                    </button>
+                  ) : null}
+                </div>
+              </li>
+            ))}
           </ul>
         </div>
 
