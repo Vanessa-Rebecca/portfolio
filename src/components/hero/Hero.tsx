@@ -135,7 +135,7 @@ export function Hero() {
         >
           <span data-hero-first className="block text-[clamp(4rem,min(16vw,20svh),14rem)] font-semibold tracking-[-0.055em]">
             {profile.firstName}
-          </span>
+          </span>{" "}
           <span className="block self-end overflow-hidden pr-[0.12em] pb-[0.06em]">
             <span
               data-hero-last

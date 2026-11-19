@@ -102,7 +102,7 @@ export function Contact() {
             className="block font-display text-[clamp(2.4rem,6vw,5.5rem)] leading-[0.98] tracking-[-0.02em] text-balance"
           >
             Have an interesting idea or opportunity?
-          </span>
+          </span>{" "}
           <span
             data-contact-big
             className="mt-2 block font-display text-[clamp(4rem,14vw,12.5rem)] leading-[0.9] tracking-[-0.03em] text-gradient italic"
