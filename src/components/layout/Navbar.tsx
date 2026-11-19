@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { ArrowUpRight, X } from "lucide-react";
+import { ArrowUpRight, Download, Mail, X } from "lucide-react";
 import { navLinks, profile, type SectionId } from "@/data/profile";
 import { gsap, ScrollTrigger, useGSAP, MQ } from "@/lib/gsap";
 import { scrollToTarget, startScroll, stopScroll } from "@/lib/scroll";
@@ -182,6 +182,15 @@ export function Navbar() {
           </div>
 
           <div className="flex items-center gap-2">
+            <a
+              href={profile.cvUrl}
+              download={profile.cvFileName}
+              className="hidden h-10 items-center gap-1.5 rounded-full border border-line bg-bg/60 px-3.5 text-sm text-muted backdrop-blur-md transition-colors duration-300 hover:border-line-strong hover:text-fg md:inline-flex"
+            >
+              <Download className="size-4" aria-hidden />
+              CV
+              <span className="sr-only">— download PDF</span>
+            </a>
             <ThemeToggle className="bg-bg/60 backdrop-blur-md" />
             <a
               href="#contact"
@@ -252,10 +261,18 @@ export function Navbar() {
             </ul>
           </nav>
           <div className="container-x flex items-center justify-between gap-4 border-t border-line py-6" data-menu-item>
-            <a href={`mailto:${profile.email}`} className="truncate text-sm text-muted">
-              {profile.email}
+            <a
+              href={profile.cvUrl}
+              download={profile.cvFileName}
+              className="inline-flex items-center gap-2 rounded-full bg-fg px-4 py-2.5 text-sm font-medium text-bg"
+            >
+              <Download className="size-4" aria-hidden />
+              Download CV
             </a>
             <div className="flex gap-2">
+              <a href={`mailto:${profile.email}`} className="grid size-10 place-items-center rounded-full border border-line" aria-label={`Email ${profile.email}`}>
+                <Mail className="size-4" aria-hidden />
+              </a>
               <a href={profile.socials.github} target="_blank" rel="noopener noreferrer" className="grid size-10 place-items-center rounded-full border border-line" aria-label="GitHub (opens in a new tab)">
                 <GithubIcon className="size-4" />
               </a>

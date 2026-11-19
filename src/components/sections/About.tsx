@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { BrainCircuit, GraduationCap, Laptop } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Portrait } from "@/components/ui/Portrait";
 import { milestones } from "@/data/experience";
 import { education, aiTraining } from "@/data/training";
 import { gsap, useGSAP, MQ } from "@/lib/gsap";
@@ -80,7 +81,12 @@ export function About() {
         </div>
 
         <div className="mt-20 grid gap-14 lg:grid-cols-12 lg:gap-10">
-          <div className="space-y-6 text-lg leading-relaxed text-muted text-pretty lg:col-span-5 lg:col-start-4">
+          <div className="mx-auto w-full max-w-xs sm:max-w-sm lg:col-span-3 lg:max-w-none">
+            <div className="lg:sticky lg:top-28">
+              <Portrait />
+            </div>
+          </div>
+          <div className="space-y-6 text-lg leading-relaxed text-muted text-pretty lg:col-span-5">
             <p data-reveal>
               Most of my work happens where requirements meet code. I like sitting with the people who&apos;ll
               use a system, understanding what slows them down, and turning that into features that are

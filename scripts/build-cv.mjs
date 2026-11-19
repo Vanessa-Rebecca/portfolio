@@ -1,4 +1,4 @@
-// Renders cv/cv.html to public/cv/Vanessa-Konso-CV.pdf using a locally installed Chrome or Edge.
+// Renders cv/cv.html to public/cv/Vanessa-Rebecca-Konso-CV.pdf using a locally installed Chrome or Edge.
 // Usage: npm run cv   (optionally set CHROME_PATH to your browser executable)
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, mkdtempSync, rmSync } from "node:fs";
@@ -9,7 +9,7 @@ import { pathToFileURL } from "node:url";
 const root = resolve(import.meta.dirname, "..");
 const input = join(root, "cv", "cv.html");
 const outDir = join(root, "public", "cv");
-const output = join(outDir, "Vanessa-Konso-CV.pdf");
+const output = join(outDir, "Vanessa-Rebecca-Konso-CV.pdf");
 
 const candidates = [
   process.env.CHROME_PATH,

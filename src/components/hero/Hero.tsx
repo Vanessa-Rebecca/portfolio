@@ -139,9 +139,10 @@ export function Hero() {
           <span className="block self-end overflow-hidden pr-[0.12em] pb-[0.06em]">
             <span
               data-hero-last
-              className="block font-display text-[clamp(4.25rem,min(17vw,21svh),15rem)] tracking-[-0.03em] text-gradient italic"
+              className="block font-display text-[clamp(3rem,min(11.5vw,17svh),11rem)] tracking-[-0.02em] italic"
             >
-              {profile.lastName}
+              <span className="text-fg/85">{profile.middleName}</span>{" "}
+              <span className="text-gradient">{profile.lastName}</span>
             </span>
           </span>
           <span className="sr-only">, {profile.role}</span>

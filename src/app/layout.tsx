@@ -21,16 +21,18 @@ const instrumentSerif = Instrument_Serif({
 });
 
 const description =
-  "Vanessa Konso is a software engineer in Kampala, Uganda, building web applications and business systems with Next.js, TypeScript and PostgreSQL, with formal training in AI and machine learning.";
+  "Vanessa Rebecca Konso is a software engineer in Kampala, Uganda, building web applications and business systems with Next.js, TypeScript and PostgreSQL, with formal training in AI and machine learning.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(profile.siteUrl),
   title: {
-    default: "Vanessa Konso — Software Engineer",
-    template: "%s — Vanessa Konso",
+    default: "Vanessa Rebecca Konso — Software Engineer",
+    template: "%s — Vanessa Rebecca Konso",
   },
   description,
   keywords: [
+    "Vanessa Rebecca Konso",
+    "Rebecca Konso",
     "Vanessa Konso",
     "Software Engineer",
     "Kampala",
@@ -48,14 +50,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "/",
-    siteName: "Vanessa Konso",
-    title: "Vanessa Konso — Software Engineer",
+    siteName: "Vanessa Rebecca Konso",
+    title: "Vanessa Rebecca Konso — Software Engineer",
     description,
     locale: "en_UG",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vanessa Konso — Software Engineer",
+    title: "Vanessa Rebecca Konso — Software Engineer",
     description,
   },
   robots: { index: true, follow: true },

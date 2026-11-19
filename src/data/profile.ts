@@ -3,9 +3,10 @@
  * Edit this file to update your name, links, contact details and CV.
  */
 export const profile = {
-  name: "Vanessa Konso",
+  name: "Vanessa Rebecca Konso",
   fullName: "Konso Vanessa Rebecca",
   firstName: "Vanessa",
+  middleName: "Rebecca",
   lastName: "Konso",
   initials: "VK",
   role: "Software Engineer",
@@ -18,8 +19,17 @@ export const profile = {
   /** Set to true to show phone numbers in the contact section. */
   showPhone: false,
 
+  /** Portrait shown in the About section. Replace the file in /public/images to update it. */
+  photo: {
+    src: "/images/vanessa-rebecca-konso.jpg",
+    width: 853,
+    height: 1280,
+    alt: "Portrait of Vanessa Rebecca Konso",
+  },
+
   /** Combined CV (software + AI/ML). Source lives in /cv/cv.html. */
-  cvUrl: "/cv/Vanessa-Konso-CV.pdf",
+  cvUrl: "/cv/Vanessa-Rebecca-Konso-CV.pdf",
+  cvFileName: "Vanessa-Rebecca-Konso-CV.pdf",
 
   /** TODO: set NEXT_PUBLIC_SITE_URL to your deployed domain (e.g. https://vanessakonso.dev) */
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
