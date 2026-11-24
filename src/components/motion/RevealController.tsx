@@ -77,6 +77,17 @@ export function RevealController() {
         splits.push(split);
       });
 
+      // Hand-drawn arrows and squiggles draw themselves as they enter
+      gsap.utils.toArray<SVGElement>("[data-draw]").forEach((svg) => {
+        gsap.to(svg.querySelectorAll("path"), {
+          strokeDashoffset: 0,
+          duration: 1.1,
+          ease: "power2.inOut",
+          stagger: 0.25,
+          scrollTrigger: { trigger: svg, start: "top 88%", once: true },
+        });
+      });
+
       // Fonts can change line breaks; refresh trigger positions once they're ready.
       document.fonts?.ready.then(() => ScrollTrigger.refresh());
 

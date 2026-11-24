@@ -41,8 +41,18 @@ export const profile = {
 
   availability: "Open to new opportunities",
 
+  /** Shown on the "Currently learning" sticker in About. Keep it honest and current. */
+  currentlyLearning: [
+    "Deploying ML models people can actually use",
+    "Building with LLM APIs — AI Freelancer Assistant",
+    "Deep learning for computer vision",
+  ],
+
   hero: {
     headline: "I build software that makes complex work feel simple.",
+    /** Same headline, split so the last words can be emphasised in the hero. */
+    headlineLead: "I build software that makes complex work",
+    headlineEmphasis: "feel simple.",
     intro:
       "Software engineer in Kampala, building web applications and business systems with Next.js, TypeScript and PostgreSQL — and learning to make them smarter with machine learning.",
     roles: ["Software Engineer", "Full-stack Developer", "UI/UX-minded", "AI/ML Practitioner"],

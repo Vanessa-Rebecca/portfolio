@@ -68,6 +68,7 @@
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
   --font-display: var(--font-instrument-serif), ui-serif, Georgia, serif;
+  --font-hand: var(--font-caveat), "Segoe Print", cursive;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -161,6 +162,14 @@ html.intro-active [data-preloader] {
   to {
     visibility: hidden;
   }
+}
+
+/* Hand-drawn strokes ([data-draw] on scroll, [data-hero-draw] in the hero timeline).
+   Paths use pathLength="1" so they can be drawn with a 0–1 dash offset. */
+.js-motion [data-draw] path,
+.js-motion [data-hero-draw] path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
 }
 
 .split-line {

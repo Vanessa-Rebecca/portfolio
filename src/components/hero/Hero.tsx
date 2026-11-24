@@ -3,13 +3,15 @@
 import { useRef } from "react";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import { profile } from "@/data/profile";
-import { gsap, SplitText, useGSAP, MQ } from "@/lib/gsap";
+import { gsap, SplitText, useGSAP, MQ, EASE } from "@/lib/gsap";
 import { scrollToTarget } from "@/lib/scroll";
 import { onIntroReveal } from "@/lib/intro";
 import { ButtonLink } from "@/components/ui/Button";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/Icons";
 import { LocalTime } from "@/components/ui/LocalTime";
+import { Squiggle } from "@/components/ui/Scribble";
 import { HeroCanvas } from "./HeroCanvas";
+import { HeroPortrait } from "./HeroPortrait";
 
 export function Hero() {
   const root = useRef<HTMLElement>(null);
@@ -22,16 +24,37 @@ export function Hero() {
         const nameSplit = SplitText.create("[data-hero-first]", { type: "chars", mask: "chars" });
         const headSplit = SplitText.create("[data-hero-headline]", { type: "lines", mask: "lines", linesClass: "split-line" });
 
-        const tl = gsap.timeline({ defaults: { ease: "expo.out" }, delay: 0.15, paused: true });
+        // Entrance — choreographed so text leads and the portrait answers
+        const tl = gsap.timeline({ defaults: { ease: EASE.out }, delay: 0.1, paused: true });
         tl.set("[data-hero]", { autoAlpha: 1 })
           .from("[data-hero-canvas]", { autoAlpha: 0, duration: 2.4, ease: "power2.out" }, 0)
           .from("[data-hero-aurora]", { scale: 0.6, autoAlpha: 0, duration: 2.4, stagger: 0.2 }, 0)
-          .from(nameSplit.chars, { yPercent: 115, duration: 1.4, stagger: 0.045 }, 0.1)
-          .from("[data-hero-last]", { yPercent: 110, duration: 1.6 }, 0.35)
-          .from("[data-hero-meta]", { y: 16, autoAlpha: 0, duration: 1, stagger: 0.08 }, 0.5)
-          .from(headSplit.lines, { yPercent: 105, duration: 1.2, stagger: 0.08 }, 0.7)
-          .from("[data-hero-fade]", { y: 24, autoAlpha: 0, duration: 1.1, stagger: 0.08 }, 0.9)
-          .from("[data-hero-rule]", { scaleX: 0, transformOrigin: "left", duration: 1.6, ease: "expo.inOut" }, 0.4);
+          .from("[data-hero-rule]", { scaleX: 0, transformOrigin: "left", duration: 1.6, ease: EASE.inOut }, 0.2)
+          .from("[data-hero-meta]", { y: 16, autoAlpha: 0, duration: 1, stagger: 0.08 }, 0.3)
+          .from(nameSplit.chars, { yPercent: 115, duration: 1.3, stagger: 0.04 }, 0.15)
+          .from("[data-hero-last]", { yPercent: 110, duration: 1.5 }, 0.4)
+          .fromTo(
+            "[data-hero-frame]",
+            { clipPath: "inset(100% 0% 0% 0%)" },
+            { clipPath: "inset(0% 0% 0% 0%)", duration: 1.6, ease: EASE.inOut, clearProps: "clipPath" },
+            0.35,
+          )
+          .fromTo("[data-hero-photo]", { scale: 1.3 }, { scale: 1.06, duration: 2.2 }, 0.35)
+          .from(headSplit.lines, { yPercent: 105, duration: 1.2, stagger: 0.08 }, 0.75)
+          .from("[data-hero-fade]", { y: 24, autoAlpha: 0, duration: 1.1, stagger: 0.08 }, 0.95)
+          .from("[data-hero-float]", { autoAlpha: 0, y: 24, scale: 0.85, duration: 1, stagger: 0.09, ease: EASE.pop }, 1.15)
+          .to("[data-hero-draw] path", { strokeDashoffset: 0, duration: 1, ease: EASE.draw, stagger: 0.25 }, 1.6);
+
+        // Technical labels drift gently once they've landed
+        gsap.to("[data-hero-bob]", {
+          yPercent: -18,
+          duration: 2.8,
+          ease: "sine.inOut",
+          repeat: -1,
+          yoyo: true,
+          stagger: { each: 0.7, from: "random" },
+          delay: 2.4,
+        });
 
         // Slow drifting aurora
         gsap.to("[data-hero-aurora]", {
@@ -45,27 +68,22 @@ export function Hero() {
           stagger: 1.5,
         });
 
-        // Parallax out as the hero scrolls away
-        gsap.to("[data-hero-name]", {
-          yPercent: -30,
-          autoAlpha: 0.15,
-          ease: "none",
-          scrollTrigger: { trigger: root.current, start: "top top", end: "bottom top", scrub: true },
-        });
-        gsap.to("[data-hero-canvas]", {
-          yPercent: 20,
-          ease: "none",
-          scrollTrigger: { trigger: root.current, start: "top top", end: "bottom top", scrub: true },
-        });
+        // Scroll: name and portrait move at different speeds, badge turns
+        const scrub = { trigger: root.current, start: "top top", end: "bottom top", scrub: true };
+        gsap.to("[data-hero-name]", { yPercent: -30, autoAlpha: 0.15, ease: "none", scrollTrigger: scrub });
+        gsap.to("[data-hero-canvas]", { yPercent: 20, ease: "none", scrollTrigger: scrub });
+        gsap.to("[data-hero-portrait]", { yPercent: -12, ease: "none", scrollTrigger: scrub });
+        gsap.to("[data-hero-photo]", { yPercent: 8, ease: "none", scrollTrigger: scrub });
+        gsap.to("[data-badge-spin]", { rotation: 300, ease: "none", transformOrigin: "50% 50%", scrollTrigger: { ...scrub, scrub: 1 } });
 
         // Rolling role words
         const roles = gsap.utils.toArray<HTMLElement>("[data-role]");
-        const roll = gsap.timeline({ repeat: -1, delay: 2 });
+        const roll = gsap.timeline({ repeat: -1, delay: 2.5 });
         roles.forEach((_, i) => {
           if (i === 0) return;
-          roll.to("[data-role-track]", { y: `${-1.3 * i}em`, duration: 0.9, ease: "expo.inOut" }, "+=1.8");
+          roll.to("[data-role-track]", { y: `${-1.3 * i}em`, duration: 0.9, ease: EASE.inOut }, "+=1.8");
         });
-        roll.to("[data-role-track]", { y: 0, duration: 0.9, ease: "expo.inOut" }, "+=1.8");
+        roll.to("[data-role-track]", { y: 0, duration: 0.9, ease: EASE.inOut }, "+=1.8");
 
         const offReveal = onIntroReveal(() => tl.play());
 
@@ -73,6 +91,33 @@ export function Hero() {
           offReveal();
           nameSplit.revert();
           headSplit.revert();
+        };
+      });
+
+      // Desktop pointer: layered decorations follow the cursor at different depths
+      mm.add(`${MQ.finePointer} and ${MQ.motion}`, () => {
+        const section = root.current;
+        if (!section) return;
+        const layers = gsap.utils.toArray<HTMLElement>("[data-depth]").map((el) => ({
+          depth: Number(el.dataset.depth) || 0.3,
+          x: gsap.quickTo(el, "x", { duration: 1.2, ease: EASE.soft }),
+          y: gsap.quickTo(el, "y", { duration: 1.2, ease: EASE.soft }),
+        }));
+        const move = (e: PointerEvent) => {
+          const r = section.getBoundingClientRect();
+          const nx = (e.clientX - r.left) / r.width - 0.5;
+          const ny = (e.clientY - r.top) / r.height - 0.5;
+          layers.forEach((l) => {
+            l.x(nx * 40 * l.depth);
+            l.y(ny * 30 * l.depth);
+          });
+        };
+        const leave = () => layers.forEach((l) => (l.x(0), l.y(0)));
+        section.addEventListener("pointermove", move);
+        section.addEventListener("pointerleave", leave);
+        return () => {
+          section.removeEventListener("pointermove", move);
+          section.removeEventListener("pointerleave", leave);
         };
       });
 
@@ -84,8 +129,6 @@ export function Hero() {
     },
     { scope: root },
   );
-
-  const roles = profile.hero.roles;
 
   return (
     <section
@@ -113,7 +156,7 @@ export function Hero() {
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-bg" />
       </div>
 
-      <div className="container-x relative flex flex-1 flex-col pt-24 pb-8 sm:pt-28 lg:pt-32">
+      <div className="container-x relative flex flex-1 flex-col pt-24 pb-10 sm:pt-28 lg:pt-28">
         {/* Meta row */}
         <div data-hero className="flex flex-wrap items-center justify-between gap-3 font-mono text-[0.7rem] tracking-[0.18em] text-muted uppercase sm:text-xs">
           <p data-hero-meta className="flex items-center gap-3">
@@ -130,36 +173,45 @@ export function Hero() {
 
         <div data-hero-rule data-hero className="mt-6 h-px w-full bg-line" aria-hidden />
 
-        {/* Name */}
-        <h1
-          id="hero-title"
-          data-hero
-          data-hero-name
-          className="mt-8 flex flex-col leading-[0.82] select-none sm:mt-10"
-        >
-          <span data-hero-first className="block text-[clamp(4rem,min(16vw,20svh),14rem)] font-semibold tracking-[-0.055em]">
-            {profile.firstName}
-          </span>{" "}
-          <span className="block self-end overflow-hidden pr-[0.12em] pb-[0.06em]">
-            <span
-              data-hero-last
-              className="block font-display text-[clamp(3rem,min(11.5vw,17svh),11rem)] tracking-[-0.02em] italic"
-            >
-              <span className="text-fg/85">{profile.middleName}</span>{" "}
-              <span className="text-gradient">{profile.lastName}</span>
+        <div className="grid flex-1 items-center gap-x-10 gap-y-12 pt-10 lg:grid-cols-12 lg:pt-6">
+          {/* Name */}
+          <h1
+            id="hero-title"
+            data-hero
+            data-hero-name
+            className="flex flex-col leading-[0.84] select-none lg:col-span-7 lg:row-start-1 lg:self-end"
+          >
+            <span data-hero-first className="block text-[clamp(3.75rem,min(13vw,15svh),10rem)] font-semibold tracking-[-0.055em]">
+              {profile.firstName}
+            </span>{" "}
+            <span className="block overflow-hidden pr-[0.12em] pb-[0.06em] pl-[8%]">
+              <span
+                data-hero-last
+                className="block font-display text-[clamp(2.75rem,min(9.6vw,11.5svh),7.5rem)] tracking-[-0.02em] italic"
+              >
+                <span className="text-fg/85">{profile.middleName}</span>{" "}
+                <span className="text-gradient">{profile.lastName}</span>
+              </span>
             </span>
-          </span>
-          <span className="sr-only">, {profile.role}</span>
-        </h1>
+            <span className="sr-only">, {profile.role}</span>
+          </h1>
 
-        {/* Bottom row */}
-        <div className="mt-auto grid gap-10 pt-10 lg:grid-cols-12 lg:items-end lg:gap-8">
-          <div className="lg:col-span-7" data-hero>
+          {/* Portrait composition */}
+          <div data-hero data-hero-portrait className="lg:col-span-5 lg:row-span-2 lg:row-start-1 lg:pt-4">
+            <HeroPortrait roles={profile.hero.roles} />
+          </div>
+
+          {/* Headline, intro, actions */}
+          <div className="lg:col-span-7 lg:row-start-2 lg:self-start" data-hero>
             <p
               data-hero-headline
-              className="max-w-[22ch] font-display text-[clamp(1.9rem,3.6vw,3.25rem)] leading-[1.05] tracking-[-0.01em] text-balance"
+              className="max-w-[24ch] font-display text-[clamp(1.7rem,2.9vw,2.6rem)] leading-[1.08] tracking-[-0.01em] text-balance"
             >
-              {profile.hero.headline}
+              {profile.hero.headlineLead}{" "}
+              <span className="relative inline-block whitespace-nowrap italic">
+                {profile.hero.headlineEmphasis}
+                <Squiggle draw="hero" className="pointer-events-none absolute -bottom-[0.2em] left-0 h-[0.32em] w-full text-accent" />
+              </span>
             </p>
             <p data-hero-fade className="mt-5 max-w-xl text-base leading-relaxed text-muted text-pretty sm:text-lg">
               {profile.hero.intro}
@@ -208,40 +260,24 @@ export function Hero() {
               </a>
             </div>
           </div>
-
-          <div data-hero className="flex items-end justify-between gap-6 lg:col-span-5 lg:flex-col lg:items-end">
-            <div data-hero-fade className="text-right">
-              <p className="font-mono text-[0.7rem] tracking-[0.2em] text-faint uppercase">Currently</p>
-              <p className="mt-2 text-lg sm:text-xl" aria-label={roles.join(", ")}>
-                <span aria-hidden className="relative inline-block h-[1.3em] overflow-hidden align-bottom">
-                  <span data-role-track className="flex flex-col">
-                    {roles.map((r) => (
-                      <span data-role key={r} className="block h-[1.3em] leading-[1.3em] whitespace-nowrap">
-                        {r}
-                      </span>
-                    ))}
-                  </span>
-                </span>
-              </p>
-            </div>
-
-            <a
-              data-hero-fade
-              href="#about"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToTarget("about");
-              }}
-              className="group flex items-center gap-3 font-mono text-[0.7rem] tracking-[0.2em] text-muted uppercase transition-colors hover:text-fg"
-            >
-              Scroll
-              <span aria-hidden className="relative h-12 w-px overflow-hidden bg-line">
-                <span className="scroll-line absolute inset-0 bg-accent" />
-              </span>
-            </a>
-          </div>
         </div>
       </div>
+
+      {/* Scroll cue */}
+      <a
+        data-hero
+        href="#about"
+        onClick={(e) => {
+          e.preventDefault();
+          scrollToTarget("about");
+        }}
+        className="group absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 font-mono text-[0.65rem] tracking-[0.25em] text-muted uppercase transition-colors hover:text-fg lg:flex"
+      >
+        Scroll
+        <span aria-hidden className="relative h-10 w-px overflow-hidden bg-line">
+          <span className="scroll-line absolute inset-0 bg-accent" />
+        </span>
+      </a>
     </section>
   );
 }

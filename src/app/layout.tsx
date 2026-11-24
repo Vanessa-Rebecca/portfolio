@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { Caveat, Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { profile } from "@/data/profile";
 import "./globals.css";
 
@@ -18,6 +18,12 @@ const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
   weight: "400",
   style: ["normal", "italic"],
+});
+
+/** Handwritten annotations — used sparingly for personal notes and arrows. */
+const caveat = Caveat({
+  variable: "--font-caveat",
+  subsets: ["latin"],
 });
 
 const description =
@@ -98,7 +104,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       data-theme="dark"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} ${caveat.variable} antialiased`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />

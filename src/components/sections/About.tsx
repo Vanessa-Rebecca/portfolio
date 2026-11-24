@@ -3,7 +3,8 @@
 import { useRef } from "react";
 import { BrainCircuit, GraduationCap, Laptop } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Portrait } from "@/components/ui/Portrait";
+import { HandArrow, HandNote, Sticker } from "@/components/ui/Scribble";
+import { profile } from "@/data/profile";
 import { milestones } from "@/data/experience";
 import { education, aiTraining } from "@/data/training";
 import { gsap, useGSAP, MQ } from "@/lib/gsap";
@@ -82,8 +83,22 @@ export function About() {
 
         <div className="mt-20 grid gap-14 lg:grid-cols-12 lg:gap-10">
           <div className="mx-auto w-full max-w-xs sm:max-w-sm lg:col-span-3 lg:max-w-none">
-            <div className="lg:sticky lg:top-28">
-              <Portrait />
+            <div className="lg:sticky lg:top-28" data-reveal>
+              <Sticker tilt={-3}>
+                <HandNote className="text-[1.65rem]">Currently learning</HandNote>
+                <ul className="mt-4 space-y-3 text-sm leading-snug text-fg/90">
+                  {profile.currentlyLearning.map((item) => (
+                    <li key={item} className="flex gap-2.5">
+                      <span aria-hidden className="mt-1.5 size-1.5 shrink-0 rounded-full bg-accent" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </Sticker>
+              <div aria-hidden className="mt-6 ml-6 hidden items-start gap-2 lg:flex">
+                <HandArrow shape="loop" className="h-10 w-24 text-faint" />
+                <HandNote className="mt-4 text-xl text-faint">always learning</HandNote>
+              </div>
             </div>
           </div>
           <div className="space-y-6 text-lg leading-relaxed text-muted text-pretty lg:col-span-5">
