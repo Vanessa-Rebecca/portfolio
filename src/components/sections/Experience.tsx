@@ -6,8 +6,9 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Tag } from "@/components/ui/Tag";
 import { experience } from "@/data/experience";
 import { getProject } from "@/data/projects";
-import { gsap, useGSAP, MQ } from "@/lib/gsap";
+import { gsap, ScrollTrigger, useGSAP, MQ } from "@/lib/gsap";
 import { openProject } from "@/lib/projectDialog";
+import { HandNote } from "@/components/ui/Scribble";
 
 export function Experience() {
   const root = useRef<HTMLElement>(null);
@@ -26,8 +27,23 @@ export function Experience() {
             scrollTrigger: { trigger: "[data-roles]", start: "top 70%", end: "bottom 70%", scrub: 0.5 },
           },
         );
+        // A glowing head rides the tip of the rail
+        gsap.fromTo(
+          "[data-rail-head]",
+          { top: "0%", autoAlpha: 0 },
+          {
+            top: "100%",
+            autoAlpha: 1,
+            ease: "none",
+            scrollTrigger: { trigger: "[data-roles]", start: "top 70%", end: "bottom 70%", scrub: 0.5 },
+          },
+        );
 
         gsap.utils.toArray<HTMLElement>("[data-role-item]").forEach((role) => {
+          // Each milestone lights up as the rail reaches it
+          const dot = role.querySelector("[data-role-dot]");
+          if (dot) ScrollTrigger.create({ trigger: role, start: "top 70%", toggleClass: { targets: dot, className: "is-lit" } });
+
           const tl = gsap.timeline({ scrollTrigger: { trigger: role, start: "top 78%", once: true } });
           tl.from(role.querySelector("[data-role-rule]"), {
             scaleX: 0,
@@ -68,6 +84,10 @@ export function Experience() {
           {/* Progress rail */}
           <div aria-hidden className="absolute top-0 bottom-0 left-[5px] w-px bg-line lg:left-[calc(33.333%-1px)]">
             <div data-rail-fill className="h-full w-full origin-top bg-gradient-to-b from-accent via-accent to-accent-2" />
+            <span
+              data-rail-head
+              className="absolute left-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent-2 opacity-0 shadow-[0_0_16px_4px_var(--accent-2)] motion-reduce:hidden"
+            />
           </div>
 
           <ol className="space-y-20 lg:space-y-28">
@@ -76,14 +96,19 @@ export function Experience() {
                 <span
                   data-role-dot
                   aria-hidden
-                  className="absolute top-1.5 left-0 size-[11px] rounded-full bg-accent shadow-[0_0_0_6px_var(--accent-soft)] lg:left-[calc(33.333%-6px)]"
+                  className="absolute top-1.5 left-0 size-[11px] rounded-full border-2 border-accent bg-bg transition-[background-color,box-shadow] duration-700 motion-reduce:bg-accent lg:left-[calc(33.333%-6px)] [&.is-lit]:bg-accent [&.is-lit]:shadow-[0_0_0_6px_var(--accent-soft)]"
                 />
 
                 {/* Left: sticky company block */}
                 <div className="lg:pr-14">
                   <div className="lg:sticky lg:top-32">
-                    <p data-role-in className="font-mono text-xs tracking-[0.18em] text-accent uppercase">
+                    <p data-role-in className="flex flex-wrap items-center gap-x-3 font-mono text-xs tracking-[0.18em] text-accent uppercase">
                       {job.period}
+                      {job.period.includes("Present") ? (
+                        <HandNote aria-hidden className="-rotate-3 text-lg tracking-normal normal-case text-muted">
+                          ← where I am now
+                        </HandNote>
+                      ) : null}
                     </p>
                     <h3 data-role-in className="mt-4 font-display text-[clamp(2.2rem,4vw,3.5rem)] leading-[0.95] tracking-[-0.01em]">
                       {job.company}

@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ComponentProps, ReactNode } from "react";
 
 /**
  * Hand-drawn accents. Paths use pathLength="1" so CSS/GSAP can "draw" them:
@@ -57,8 +57,12 @@ export function HandArrow({
 }
 
 /** A short handwritten note. Purely decorative unless `as` is used for real content. */
-export function HandNote({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <span className={`font-hand leading-none text-accent ${className}`}>{children}</span>;
+export function HandNote({ children, className = "", ...rest }: ComponentProps<"span">) {
+  return (
+    <span className={`font-hand leading-none text-accent ${className}`} {...rest}>
+      {children}
+    </span>
+  );
 }
 
 /** Hand-drawn underline/scribble that sits under a word. */

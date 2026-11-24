@@ -5,11 +5,15 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { BrandIcon, SkillGlyph } from "@/components/ui/Icons";
 import { marqueeIcons, skillCategories, type Skill } from "@/data/skills";
 import { gsap, useGSAP, MQ } from "@/lib/gsap";
+import { useTilt } from "@/lib/useTilt";
+import { HandArrow, HandNote } from "@/components/ui/Scribble";
 
 /** Brand colours that are too dark to read on the dark theme fall back to the accent. */
 function brandColor(skill: Skill) {
-  if (!("brand" in skill.icon)) return "var(--accent)";
-  const hex = skill.icon.brand.hex;
+  return "brand" in skill.icon ? hexColor(skill.icon.brand.hex) : "var(--accent)";
+}
+
+function hexColor(hex: string) {
   const [r, g, b] = [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
   const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
   return lum < 0.28 ? "var(--accent)" : `#${hex}`;
@@ -24,7 +28,11 @@ function Marquee() {
     >
       <div className="marquee-track flex w-max items-center gap-14 pr-14">
         {items.map((s, i) => (
-          <span key={`${s.name}-${i}`} className="flex items-center gap-3 whitespace-nowrap text-faint">
+          <span
+            key={`${s.name}-${i}`}
+            style={{ ["--brand" as string]: hexColor(s.icon.hex) }}
+            className="flex items-center gap-3 whitespace-nowrap text-faint transition-colors duration-300 hover:text-[var(--brand)]"
+          >
             <BrandIcon icon={s.icon} className="size-6" />
             <span className="font-display text-2xl italic">{s.name}</span>
           </span>
@@ -40,6 +48,14 @@ export function Skills() {
   const [active, setActive] = useState(0);
   const baseId = useId();
   const category = skillCategories[active];
+  useTilt(root, [active]);
+
+  /** Small reward for pressing a tile: the logo does a quick flip. */
+  const reactTo = (tile: HTMLElement) => {
+    if (!window.matchMedia(MQ.motion).matches) return;
+    const glyph = tile.querySelector("[data-skill-glyph]");
+    if (glyph) gsap.fromTo(glyph, { rotationY: 0 }, { rotationY: 360, duration: 0.9, ease: "power3.out" });
+  };
 
   // Animate tiles whenever the category changes (skipped on first paint — RevealController handles entry).
   const first = useRef(true);
@@ -158,26 +174,36 @@ export function Skills() {
           aria-labelledby={`${baseId}-tab-${category.id}`}
           className="lg:col-span-8"
         >
-          <p data-skill-blurb className="mb-6 max-w-xl text-lg text-muted">
-            {category.blurb}
-          </p>
+          <div className="mb-6 flex items-end justify-between gap-6">
+            <p data-skill-blurb className="max-w-xl text-lg text-muted">
+              {category.blurb}
+            </p>
+            <div aria-hidden className="relative hidden shrink-0 pr-2 pb-6 md:block">
+              <HandNote className="-rotate-6 text-xl text-faint">go on, poke one</HandNote>
+              <HandArrow shape="curve" flip className="absolute -bottom-3 left-2 h-8 w-12 rotate-12 text-faint" />
+            </div>
+          </div>
           <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
             {category.skills.map((s) => (
               <li
                 key={`${category.id}-${s.name}`}
                 data-skill-tile
+                data-tilt="7"
+                onPointerDown={(e) => reactTo(e.currentTarget)}
                 style={{ ["--brand" as string]: brandColor(s) }}
-                className="group relative isolate flex min-h-36 flex-col justify-between overflow-hidden rounded-2xl border border-line bg-surface p-4 transition-[border-color,translate] duration-500 ease-out-expo hover:-translate-y-1 hover:border-line-strong sm:min-h-40 sm:p-5"
+                className="group relative isolate flex min-h-36 flex-col justify-between overflow-hidden rounded-2xl border border-line bg-surface p-4 transition-[border-color,scale] duration-300 ease-out-expo select-none hover:border-[color-mix(in_oklab,var(--brand)_55%,transparent)] active:scale-[0.97] sm:min-h-40 sm:p-5"
               >
                 <span
                   aria-hidden
                   className="absolute -top-10 -right-10 -z-10 size-32 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-40"
                   style={{ background: "var(--brand)" }}
                 />
-                <SkillGlyph
-                  icon={s.icon}
-                  className="size-7 text-muted transition-[color,scale] duration-500 ease-out-expo group-hover:scale-110 group-hover:text-[var(--brand)]"
-                />
+                <span data-tilt-depth="10" data-skill-glyph className="inline-block w-fit">
+                  <SkillGlyph
+                    icon={s.icon}
+                    className="size-7 text-muted transition-[color,scale] duration-500 ease-out-expo group-hover:scale-110 group-hover:text-[var(--brand)]"
+                  />
+                </span>
                 <div className="mt-6">
                   <p className="font-medium tracking-tight">{s.name}</p>
                   <p className="mt-1 text-xs leading-snug text-faint transition-colors duration-300 group-hover:text-muted">

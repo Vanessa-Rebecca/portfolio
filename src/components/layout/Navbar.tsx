@@ -6,6 +6,8 @@ import { navLinks, profile, type SectionId } from "@/data/profile";
 import { gsap, ScrollTrigger, useGSAP, MQ } from "@/lib/gsap";
 import { scrollToTarget, startScroll, stopScroll } from "@/lib/scroll";
 import { ThemeToggle } from "./ThemeToggle";
+import { RollText } from "@/components/ui/RollText";
+import { HandNote } from "@/components/ui/Scribble";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/Icons";
 
 export function Navbar() {
@@ -162,7 +164,9 @@ export function Navbar() {
                 ref={pillRef}
                 aria-hidden
                 className="absolute top-0 left-0 h-full rounded-full bg-surface-strong opacity-0"
-              />
+              >
+                <span className="absolute -bottom-[3px] left-1/2 size-1 -translate-x-1/2 rounded-full bg-accent" />
+              </span>
               {navLinks.map((l) => (
                 <li key={l.id}>
                   <a
@@ -170,11 +174,11 @@ export function Navbar() {
                     data-nav={l.id}
                     onClick={go(l.id)}
                     aria-current={active === l.id ? "location" : undefined}
-                    className={`relative block rounded-full px-4 py-2 text-sm transition-colors duration-300 ${
+                    className={`group relative block rounded-full px-4 py-2 text-sm transition-colors duration-300 ${
                       active === l.id ? "text-fg" : "text-muted hover:text-fg"
                     }`}
                   >
-                    {l.label}
+                    <RollText>{l.label}</RollText>
                   </a>
                 </li>
               ))}
@@ -195,10 +199,10 @@ export function Navbar() {
             <a
               href="#contact"
               onClick={go("contact")}
-              className="hidden items-center gap-1.5 rounded-full bg-fg px-4 py-2.5 text-sm font-medium text-bg transition-colors duration-300 hover:bg-accent hover:text-on-accent sm:inline-flex"
+              className="group hidden items-center gap-1.5 rounded-full bg-fg px-4 py-2.5 text-sm font-medium text-bg transition-[background-color,color,scale] duration-300 hover:bg-accent hover:text-on-accent active:scale-95 sm:inline-flex"
             >
-              Let&apos;s talk
-              <ArrowUpRight className="size-4" aria-hidden />
+              <RollText>Let&apos;s talk</RollText>
+              <ArrowUpRight className="size-4 transition-transform duration-500 ease-out-expo group-hover:rotate-45" aria-hidden />
             </a>
             <button
               ref={menuButtonRef}
@@ -251,10 +255,21 @@ export function Navbar() {
                     href={`#${l.id}`}
                     onClick={go(l.id)}
                     aria-current={active === l.id ? "location" : undefined}
-                    className="flex items-baseline gap-4 py-1.5 font-display text-[clamp(2.5rem,11vw,4rem)] leading-none"
+                    className="group flex items-baseline gap-4 py-1.5 font-display text-[clamp(2.5rem,11vw,4rem)] leading-none"
                   >
                     <span className="font-mono text-xs text-accent">{String(i + 1).padStart(2, "0")}</span>
-                    <span className={active === l.id ? "italic text-accent" : ""}>{l.label}</span>
+                    <span
+                      className={`transition-[translate,color] duration-500 ease-out-expo group-hover:translate-x-2 group-active:translate-x-2 ${
+                        active === l.id ? "italic text-accent" : ""
+                      }`}
+                    >
+                      {l.label}
+                    </span>
+                    {active === l.id ? (
+                      <HandNote className="-rotate-6 self-center text-xl text-muted" aria-hidden>
+                        ← you are here
+                      </HandNote>
+                    ) : null}
                   </a>
                 </li>
               ))}
